@@ -4,15 +4,21 @@ Barebone PCAP to HEP converter for the Browser via webSockets.
 
 ### Requirements
 * Working HEP Server (HOMER, HEPIC)
-* SIP PCAPs & Browser
+* SIP PCAPs & Modern Browser
 
 ### Usage
+Launch the service and browse to port 5000 to upload your PCAP:
+```
+./pcap2hep.js -s 127.0.0.1 -p 9060
+```
+
+#### Options
 ```
       -w:       HEP3 Websocket Port (8060)
+      -W:       HEP3 Web Port (5000)
       -s:       HEP3 Collector IP (127.0.0.1)
       -p:       HEP3 Collector Port (9060)
       -i:       HEP3 Agent ID
-      -debug:   Debug Internals    (ie: -debug true)
 ```
 
 ### Credit

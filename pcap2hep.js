@@ -7,6 +7,7 @@ if(process.argv.indexOf("-h") != -1){
 	console.log('Usage:');
 	console.log();
 	console.log('      -w:     	HEP3 Websocket Port (8060)');
+	console.log('      -W:     	HEP3 Web Port (5000)');
 	console.log('      -s:     	HEP3 Collector IP (127.0.0.1)');
 	console.log('      -p:     	HEP3 Collector Port (9060)');
 	console.log('      -i:     	HEP3 Agent ID');
@@ -18,7 +19,7 @@ if(process.argv.indexOf("-h") != -1){
 }
 
 /* Settings Section */
-	var settings = { debug: false, hep_server: '127.0.0.1', hep_port: 9060, hep_id: 8080, wss_port: 8060 };
+	var settings = { debug: false, hep_server: '127.0.0.1', hep_port: 9060, hep_id: 8080, wss_port: 8060, web_port: 5000 };
 
 	if(process.argv.indexOf("-debug") != -1){
 	   settings.debug = process.argv[process.argv.indexOf("-debug") + 1];
@@ -31,6 +32,9 @@ if(process.argv.indexOf("-h") != -1){
 	}
 	if(process.argv.indexOf("-w") != -1){
 	    settings.wss_port = process.argv[process.argv.indexOf("-w") + 1];
+	}
+	if(process.argv.indexOf("-W") != -1){
+	    settings.web_port = process.argv[process.argv.indexOf("-W") + 1];
 	}
 	if(process.argv.indexOf("-i") != -1){
 	    settings.hep_id = process.argv[process.argv.indexOf("-i") + 1];
@@ -55,7 +59,7 @@ fastify.get('/', function (req, reply) {
   reply.sendFile('index.html') // serving path.join(__dirname, 'public', 'myHtml.html') directly
 })
 
-fastify.listen(5000, '0.0.0.0', (err, address) => {
+fastify.listen(settings.web_port, '0.0.0.0', (err, address) => {
   if (err) throw err
   console.log("server listening: "+address)
 })
