@@ -1,0 +1,30 @@
+{
+  "name": "pcap2hep",
+  "version": "1.0.0",
+  "description": "PCAP to HEP from the Browser",
+  "main": "pcap2hep.js",
+  "scripts": {
+    "serve": "nodejs pcap2hep.js",
+    "build": "browserify public/pcap.js -o public/bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lmangani/pcap2hep.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lmangani/pcap2hep/issues"
+  },
+  "homepage": "https://github.com/lmangani/pcap2hep#readme",
+  "dependencies": {
+    "cap": "^0.2.1",
+    "dgram": "^1.0.1",
+    "fastify": "^2.12.1",
+    "fastify-static": "^2.6.0",
+    "hep-js": "^1.0.20",
+    "sipcore": "^0.2.0",
+    "ws": "^7.2.3"
+  }
+}
