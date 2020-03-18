@@ -100,6 +100,9 @@ wss.on('connection', function(ws) {
 	        hep_proto.dstIp = decoded.ipv4.dst;
         	hep_proto.srcPort = decoded.ipv4.tcp.srcport;
         	hep_proto.dstPort = decoded.ipv4.tcp.dstport;
+		hep_proto.time_sec = parseInt(decoded.ts_sec),
+		hep_proto.time_usec = parseInt(decoded.ts_sec.toString().split('.')[1]) | 000 ;
+
 		parseSIP(payload,hep_proto);
 
 	}
@@ -116,6 +119,9 @@ wss.on('connection', function(ws) {
 	        hep_proto.dstIp = decoded.ipv4.dst;
 	        hep_proto.srcPort = decoded.ipv4.udp.srcport;
 	        hep_proto.dstPort = decoded.ipv4.udp.dstport;
+		hep_proto.time_sec = parseInt(decoded.ts_sec),
+		hep_proto.time_usec = parseInt(decoded.ts_sec.toString().split('.')[1]) | 000 ;
+
 		parseSIP(payload,hep_proto);
 	}
 
