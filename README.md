@@ -1,4 +1,6 @@
-# packetpeek
+# pcap2hep
+
+![image](https://user-images.githubusercontent.com/1423657/77010416-02a46700-696a-11ea-8f70-a6456243bd28.png)
 
 Barebone PCAP to HEP converter for the Browser via webSockets.
 
