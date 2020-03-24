@@ -88,7 +88,7 @@ wss.on('connection', function(ws) {
         var hep_proto = { "type": "HEP", "version": 3, "payload_type": "SIP", "captureId": settings.hep_id, "ip_family": 2, "capturePass": "wss" };
 
 	/* TCP DECODE */
-	if (decoded && decoded.ipv4.tcp){
+	if (decoded && decoded.ipv4 && decoded.ipv4.tcp){
 		var payload = String.fromCharCode(...Object.values(decoded.ipv4.udp.data));
 		// console.log(payload);
 
@@ -107,7 +107,7 @@ wss.on('connection', function(ws) {
 
 	}
 	/* UDP DECODE */
-	if (decoded && decoded.ipv4.udp){
+	if (decoded && decoded.ipv4 && decoded.ipv4.udp){
 		var payload = String.fromCharCode(...Object.values(decoded.ipv4.udp.data));
 		// console.log(payload);
 
