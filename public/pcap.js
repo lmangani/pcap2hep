@@ -81,7 +81,8 @@ document.addEventListener("DOMContentLoaded", function(event)
   {
     etherframes.forEach(function(frame){
 	  // console.log(frame);
-	  connection.send(JSON.stringify(frame));
+	  processPacket(frame)
+	  // connection.send(JSON.stringify(frame));
     });
     console.log('parsed '+etherframes.length + 'frames');
     // console.log(etherframes, ipv4hosts)
