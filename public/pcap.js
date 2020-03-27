@@ -7,9 +7,66 @@
 
 var connection = new WebSocket('ws://' + window.location.hostname + ':8060');
 
+var HEP = require('hep-js');
+var SIP = require('sipcore');
+
 connection.onopen = function () {
-  connection.send('Ping'); // Send the message 'Ping' to the server
+  connection.binaryType = 'Buffer';
 };
+
+/* HEP3 Socket OUT */
+var sendHEP3 = function(msg, rcinfo){
+	var sipmsg = SIP.parse(msg);
+	if (rcinfo && sipmsg) {
+		try {
+			if (settings.debug) console.log('Sending WS HEP3 Packet...',rcinfo,msg);
+			var hep_message = HEP.encapsulate(msg,rcinfo);
+			if (hep_message) {
+				var packet = Buffer.from(hep_message)
+				connection.send(packet);
+			}
+		}
+		catch (e) {
+			console.log('HEP3 Error sending to WS!',e);
+		}
+	}
+}
+
+var processPacket = function(message){
+	try { var decoded = JSON.parse(message) } catch { var decoded = false; };
+        var hep_proto = { "type": "HEP", "version": 3, "payload_type": "SIP", "captureId": settings.hep_id, "ip_family": 2, "capturePass": "wss" };
+	/* TCP DECODE */
+	if (decoded && decoded.ipv4 && decoded.ipv4.tcp){
+		var payload = String.fromCharCode(...Object.values(decoded.ipv4.udp.data));
+        	// Build HEP3
+		hep_proto.ip_family = 2;
+        	hep_proto.protocol = 6;
+		hep_proto.proto_type = 1;
+	        hep_proto.srcIp = decoded.ipv4.src;
+	        hep_proto.dstIp = decoded.ipv4.dst;
+        	hep_proto.srcPort = decoded.ipv4.tcp.srcport;
+        	hep_proto.dstPort = decoded.ipv4.tcp.dstport;
+		hep_proto.time_sec = parseInt(decoded.ts_sec),
+		hep_proto.time_usec = parseInt(decoded.ts_sec.toString().split('.')[1]) | 000 ;
+		sendHEP3(payload,hep_proto);
+
+	}
+	/* UDP DECODE */
+	if (decoded && decoded.ipv4 && decoded.ipv4.udp){
+		var payload = String.fromCharCode(...Object.values(decoded.ipv4.udp.data));
+	        // Build HEP3
+		hep_proto.ip_family = 2;
+	        hep_proto.protocol = 17;
+		hep_proto.proto_type = 1;
+	        hep_proto.srcIp = decoded.ipv4.src;
+	        hep_proto.dstIp = decoded.ipv4.dst;
+	        hep_proto.srcPort = decoded.ipv4.udp.srcport;
+	        hep_proto.dstPort = decoded.ipv4.udp.dstport;
+		hep_proto.time_sec = parseInt(decoded.ts_sec),
+		hep_proto.time_usec = parseInt(decoded.ts_sec.toString().split('.')[1]) | 000 ;
+		sendHEP3(payload,hep_proto);
+	}
+}
 
 // $( document ).ready( function ()
 document.addEventListener("DOMContentLoaded", function(event)
