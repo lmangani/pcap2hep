@@ -1,6 +1,6 @@
 {
   "name": "pcap2hep",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "PCAP to HEP from the Browser",
   "main": "pcap2hep.js",
   "scripts": {

@@ -9,6 +9,10 @@
 <body>
     <img src="https://user-images.githubusercontent.com/1423657/55069501-8348c400-5084-11e9-9931-fefe0f9874a7.png" width=200/><br>
     <p>PCAP to HEP</p>
+    <button type="button" id="upload" disabled>Send HEP</button>
     <input type="file" id="files" name="files[]" multiple />
-    <div class="viz"></div>
+    	<div class="viz" id="viz">
+	  <div id="viz-frames"></div>
+	  <div id="viz-hosts"></div>
+	</div>
 </body>
