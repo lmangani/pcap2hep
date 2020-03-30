@@ -1,10 +1,14 @@
 /*********************************************************************
+  Purpose: Parse PCAP-SIP and convert to HEP binary format
+  Author: Lorenzo Mangani
+  Date: 30.03.2020
+*********************************************************************/
+/*********************************************************************
   Purpose: File containing all of the code to parse a PCAP file
   and display it using D3 to create a ladder diagram.
   Author: Nick Knight
   Date: 23.05.2017
 *********************************************************************/
-
 var connection = new WebSocket('ws://' + window.location.hostname + ':8060');
 
 var HEP = require('hep-js');
@@ -19,7 +23,6 @@ var sendHEP3 = function(msg, rcinfo){
 	var sipmsg = SIP.parse(msg);
 	if (rcinfo && sipmsg) {
 		try {
-			if (settings.debug) console.log('Sending WS HEP3 Packet...',rcinfo,msg);
 			var hep_message = HEP.encapsulate(msg,rcinfo);
 			if (hep_message) {
 				var packet = Buffer.from(hep_message)
@@ -34,7 +37,7 @@ var sendHEP3 = function(msg, rcinfo){
 
 var processPacket = function(message){
 	try { var decoded = JSON.parse(message) } catch { var decoded = false; };
-        var hep_proto = { "type": "HEP", "version": 3, "payload_type": "SIP", "captureId": settings.hep_id, "ip_family": 2, "capturePass": "wss" };
+        var hep_proto = { "type": "HEP", "version": 3, "payload_type": "SIP", "captureId": 9999, "ip_family": 2, "capturePass": "wss" };
 	/* TCP DECODE */
 	if (decoded && decoded.ipv4 && decoded.ipv4.tcp){
 		var payload = String.fromCharCode(...Object.values(decoded.ipv4.udp.data));
@@ -79,13 +82,18 @@ document.addEventListener("DOMContentLoaded", function(event)
   *********************************************************************/
   function drawGraph( etherframes, ipv4hosts )
   {
-    etherframes.forEach(function(frame){
-	  // console.log(frame);
-	  processPacket(frame)
-	  // connection.send(JSON.stringify(frame));
-    });
+    document.getElementById('viz-frames').innerHTML = '<p>Parsed '+etherframes.length+' IP frames</p>';
+    document.getElementById('viz-hosts').innerHTML = '<p>Parsed '+ipv4hosts.length+' hosts ('+ipv4hosts.join(",")+')</p>';
     console.log('parsed '+etherframes.length + 'frames');
+
     // console.log(etherframes, ipv4hosts)
+    document.getElementById("upload").onclick = function(){
+	    etherframes.forEach(function(frame){
+		  processPacket(frame)
+	    });
+    }
+    document.getElementById("upload").disabled = false;
+    document.getElementById("files").style.visibility = 'hidden';
     return;
   }
 

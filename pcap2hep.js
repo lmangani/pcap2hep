@@ -1,8 +1,9 @@
 #!/usr/bin/nodejs
 
+/* WS to UDP Proxy for HEP */
 /* HEP Hackaton */
 
-if(process.argv.indexOf("-h") != -1){ 
+if(process.argv.indexOf("-h") != -1){
 	console.log('Browser PCAP to HEP Mopster. For more information please visit: http://sipcapture.org ');
 	console.log('Usage:');
 	console.log();
@@ -54,7 +55,7 @@ fastify.register(require('fastify-static'), {
 })
 
 fastify.get('/', function (req, reply) {
-  reply.sendFile('index.html') // serving path.join(__dirname, 'public', 'myHtml.html') directly
+  reply.sendFile('index.html')
 })
 
 fastify.listen(settings.web_port, '0.0.0.0', (err, address) => {
