@@ -25,4 +25,4 @@ Launch the service and browse to port 5000 to upload your PCAP:
 
 ### Credit
 * HEP Websocket by QXIP
-* PCAP loader by (Nick Knight](https://github.com/tinpotnick)
+* PCAP loader by [Nick Knight](https://github.com/tinpotnick)
