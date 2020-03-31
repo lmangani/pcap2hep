@@ -8663,12 +8663,14 @@ connection.onopen = function () {
 /* HEP3 Socket OUT */
 var sendHEP3 = function(msg, rcinfo){
 	var sipmsg = SIP.parse(msg);
+	//console.log('sendHEP3',rcinfo,msg,sipmsg);
 	if (rcinfo && sipmsg) {
 		try {
 			var hep_message = HEP.encapsulate(msg,rcinfo);
 			if (hep_message) {
 				var packet = Buffer.from(hep_message)
 				connection.send(packet);
+				//console.log('sending hep packet',rcinfo,msg);
 			}
 		}
 		catch (e) {
@@ -8678,7 +8680,8 @@ var sendHEP3 = function(msg, rcinfo){
 }
 
 var processPacket = function(message){
-	try { var decoded = JSON.parse(message) } catch { var decoded = false; };
+	try { var decoded = JSON.parse(message) } catch { var decoded = message; };
+	//console.log('processing packet',decoded,message);
         var hep_proto = { "type": "HEP", "version": 3, "payload_type": "SIP", "captureId": 9999, "ip_family": 2, "capturePass": "wss" };
 	/* TCP DECODE */
 	if (decoded && decoded.ipv4 && decoded.ipv4.tcp){
@@ -8730,6 +8733,7 @@ document.addEventListener("DOMContentLoaded", function(event)
 
     // console.log(etherframes, ipv4hosts)
     document.getElementById("upload").onclick = function(){
+	    console.log('processing frames');
 	    etherframes.forEach(function(frame){
 		  processPacket(frame)
 	    });

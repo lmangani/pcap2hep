@@ -80,7 +80,7 @@ wss.on('connection', function(ws) {
     //When a message is received from ws client send it to udp server.
     ws.on('message', function(message) {
 	if(settings.debug) try { console.log(HEP.decapsulate(message)); } catch(e) { console.log(e); }
-	udpClient.send(packet, 0, packet.length, SERVER_PORT, SERVER_IP);
+	if (packet && packet.length) udpClient.send(packet, 0, packet.length, SERVER_PORT, SERVER_IP);
 	return;
     });
 });
