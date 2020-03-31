@@ -43,7 +43,7 @@ var processPacket = function(message){
         var hep_proto = { "type": "HEP", "version": 3, "payload_type": "SIP", "captureId": 9999, "ip_family": 2, "capturePass": "wss" };
 	/* TCP DECODE */
 	if (decoded && decoded.ipv4 && decoded.ipv4.tcp){
-		var payload = String.fromCharCode(...Object.values(decoded.ipv4.udp.data));
+		var payload = String.fromCharCode(...Object.values(decoded.ipv4.tco.data));
         	// Build HEP3
 		hep_proto.ip_family = 2;
         	hep_proto.protocol = 6;
