@@ -22,7 +22,7 @@
     "cap": "^0.2.1",
     "dgram": "^1.0.1",
     "fastify": "^2.12.1",
-    "fastify-static": "^2.6.0",
+    "fastify-static": "^4.2.4",
     "hep-js": "^1.0.20",
     "sipcore": "^0.2.0",
     "ws": "^7.2.3"
